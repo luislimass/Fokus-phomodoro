@@ -5,6 +5,23 @@ const longoBt = document.querySelector('.app__card-button--longo')
 const banner = document.querySelector('.app__image')
 const titulo = document.querySelector('.app__title')
 const botoes = document.querySelectorAll('.app__card-button')
+const startpauseBt = document.querySelector('#start-pause')
+const musicaFocoInput = document.querySelector('#alternar-musica')
+const musica = new Audio('/sons/luna-rise-part-one.mp3')
+
+let intervaloid = null
+let tempodecorridoemsegundos = 5
+
+musica.loop = true
+musicaFocoInput.addEventListener('change', () =>{
+   if (musica.paused){
+    musica.play()
+   }
+   else {
+    musica.pause()
+   }
+})
+
 focoBt.addEventListener('click', () =>{
     alterarContexto('foco')
    focoBt.classList.add ('active')
@@ -41,7 +58,31 @@ function alterarContexto(contexto){
                         break;
     }
 
-
-
-
 } 
+
+const contagemregressiva = () =>{
+    if(tempodecorridoemsegundos<=0){
+        zerar()
+        alert ('tempo finalizado')
+        return 
+    } 
+    tempodecorridoemsegundos -=1
+    console.log('temporizador: ' + tempodecorridoemsegundos)
+}
+
+startpauseBt.addEventListener('click', iniciaroupausar )
+
+function iniciaroupausar() {
+    if (intervaloid) {
+        // If intervaloid is already set (meaning the timer is running), pause the timer
+        clearInterval(intervaloid); // Clear the interval to pause the countdown
+        intervaloid = null; // Reset intervaloid to null to indicate that the timer is paused
+    } else {
+        // If intervaloid is not set (meaning the timer is not running), start the timer
+        intervaloid = setInterval(contagemregressiva, 1000); // Start the countdown timer
+    }
+}
+function zerar(){
+    clearInterval(intervaloid)
+    intervaloid = null
+}
