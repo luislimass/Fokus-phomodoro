@@ -7,15 +7,16 @@ const titulo = document.querySelector('.app__title')
 const botoes = document.querySelectorAll('.app__card-button')
 const startpauseBt = document.querySelector('#start-pause')
 const musicaFocoInput = document.querySelector('#alternar-musica')
+const temponatela = document.querySelector('#timer')
 const musica = new Audio('/sons/luna-rise-part-one.mp3')
 const audioplay = new Audio ('/sons/play.wav')
 const audiopause = new Audio ('/sons/pause.mp3')
 const audioend = new Audio ('/sons/beep.mp3')
 const iniciaroupausarBt = document.querySelector ('#start-pause span')
-
+const iniciaroupausarBticone = document.querySelector('.app__card-primary-button-icon')
 
 let intervaloid = null
-let tempodecorridoemsegundos = 5
+let tempodecorridoemsegundos = 1500 
 
 musica.loop = true
 musicaFocoInput.addEventListener('change', () =>{
@@ -29,20 +30,21 @@ musicaFocoInput.addEventListener('change', () =>{
 
 focoBt.addEventListener('click', () =>{
     alterarContexto('foco')
-   focoBt.classList.add ('active')
-
+   focoBt.classList.add ('active'),
+    tempodecorridoemsegundos = 1500 
 })
 curtoBt.addEventListener('click', () =>{
-   alterarContexto('descanso-curto')
+    tempodecorridoemsegundos = 300
+    alterarContexto('descanso-curto')
     curtoBt.classList.add('active')
-
 })
 longoBt.addEventListener('click', () =>{
+    tempodecorridoemsegundos = 900
     alterarContexto('descanso-longo')
     longoBt.classList.add('active')
-    
 })
 function alterarContexto(contexto){
+    mostartempo()
     html.setAttribute('data-contexto', contexto)
     banner.setAttribute('src', `/imagens/${contexto}.png`)
     botoes.forEach(function (contexto) {
@@ -74,7 +76,7 @@ const contagemregressiva = () =>{
 
     } 
     tempodecorridoemsegundos -=1
-    console.log('temporizador: ' + tempodecorridoemsegundos)
+    mostartempo()
 }
 
 startpauseBt.addEventListener('click', iniciaroupausar )
@@ -86,7 +88,6 @@ function iniciaroupausar() {
         intervaloid = null;
         audiopause.play();
         iniciaroupausarBt.textContent = "Iniciar"; // Corrigido o nome da variável.
-    
     } else {
         intervaloid = setInterval(contagemregressiva, 1000);
         audioplay.play();
@@ -99,3 +100,11 @@ function zerar() {
     iniciaroupausarBt.textContent = "Começar"; // Corrigido o nome da variável.
     intervaloid = null;
 }
+
+function mostartempo(){
+    const tempo = new Date(tempodecorridoemsegundos * 1000)
+    const tempoformatado = tempo.toLocaleTimeString('pt-Br', {minute: '2-digit', second: '2-digit',})
+    temponatela.innerHTML = `${tempoformatado}`
+}
+
+mostartempo()
