@@ -11,6 +11,7 @@ const musica = new Audio('/sons/luna-rise-part-one.mp3')
 const audioplay = new Audio ('/sons/play.wav')
 const audiopause = new Audio ('/sons/pause.mp3')
 const audioend = new Audio ('/sons/beep.mp3')
+const iniciaroupausarBt = document.querySelector ('#start-pause span')
 
 
 let intervaloid = null
@@ -78,21 +79,23 @@ const contagemregressiva = () =>{
 
 startpauseBt.addEventListener('click', iniciaroupausar )
 
+
 function iniciaroupausar() {
     if (intervaloid) {
-        // If intervaloid is already set (meaning the timer is running), pause the timer
-        clearInterval(intervaloid); // Clear the interval to pause the countdown
-        intervaloid = null; // Reset intervaloid to null to indicate that the timer is paused
-        audiopause.play()
-    } else {
-        // If intervaloid is not set (meaning the timer is not running), start the timer
-        intervaloid = setInterval(contagemregressiva, 1000); // Start the countdown timer
-    audioplay.play()
+        clearInterval(intervaloid); 
+        intervaloid = null;
+        audiopause.play();
+        iniciaroupausarBt.textContent = "Iniciar"; // Corrigido o nome da variável.
     
+    } else {
+        intervaloid = setInterval(contagemregressiva, 1000);
+        audioplay.play();
+        iniciaroupausarBt.textContent = "Pausar"; // Corrigido o nome da variável.
     }
-
 }
-function zerar(){
-    clearInterval(intervaloid)
-    intervaloid = null
+
+function zerar() {
+    clearInterval(intervaloid);
+    iniciaroupausarBt.textContent = "Começar"; // Corrigido o nome da variável.
+    intervaloid = null;
 }
