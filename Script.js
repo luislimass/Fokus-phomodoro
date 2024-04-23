@@ -13,8 +13,6 @@ const audioplay = new Audio ('/sons/play.wav')
 const audiopause = new Audio ('/sons/pause.mp3')
 const audioend = new Audio ('/sons/beep.mp3')
 const iniciaroupausarBt = document.querySelector ('#start-pause span')
-const iniciaroupausarBticone = document.querySelector('.app__card-primary-button-icon')
-
 let intervaloid = null
 let tempodecorridoemsegundos = 1500 
 
